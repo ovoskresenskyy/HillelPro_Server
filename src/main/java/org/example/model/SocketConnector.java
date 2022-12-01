@@ -22,6 +22,7 @@ public class SocketConnector implements Runnable {
     private final Date connectionTimeStamp;
     private final BufferedReader reader;
     private final BufferedWriter sender;
+    private boolean running;
 
     public static SocketConnector createAndStart(Socket socket, String name) throws CantSetConnectionWithSocketException {
 
@@ -51,12 +52,14 @@ public class SocketConnector implements Runnable {
 
         SocketConnectorService socketConnectorService = SocketConnectorService.getInstance();
         Map<Command, NotMyExecutor> commandHandler = initializeCommands(socketConnectorService);
+        running = true;
 
         String userInput;
         try {
-            while (true) {
+            while (running) {
                 userInput = reader.readLine();
                 if (userInput == null) throw new UserInputIsNullException();
+
                 commandHandler
                         .getOrDefault(Command.getByName(userInput)
                                 , socketConnectorService.sendMessageForAllConnected(thread.getName(), userInput))
@@ -68,7 +71,6 @@ public class SocketConnector implements Runnable {
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
-        socketConnectorService.closeConnection(this).execute();
     }
 
     private Map<Command, NotMyExecutor> initializeCommands(SocketConnectorService clientConnectorService) {
@@ -76,6 +78,10 @@ public class SocketConnector implements Runnable {
                 Command.SEND_FILE, clientConnectorService.sendFile(),
                 Command.EXIT, clientConnectorService.closeConnection(this)
         );
+    }
+
+    public void stopThread() {
+        running = false;
     }
 
     @Override

@@ -43,13 +43,10 @@ public class SocketConnectorService {
             socketConnector.getReader().close();
             socketConnector.getSender().close();
             socketConnector.getSocket().close();
-            socketConnector.getThread().join();
+            socketConnector.stopThread();
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Trying to close socket connector. Socket is not available.");
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            System.out.println("Trying to close socket connector. Can't join the thread.");
         }
     }
 
