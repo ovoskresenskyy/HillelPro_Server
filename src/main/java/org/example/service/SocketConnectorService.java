@@ -34,7 +34,6 @@ public class SocketConnectorService {
             closeAllResources(socketConnector);
 
             MenuService.getInstance().sendToEveryone("", socketConnector + " leave our server.");
-            System.out.println(socketConnector + " is disconnected.");
         };
     }
 

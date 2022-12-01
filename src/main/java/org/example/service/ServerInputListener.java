@@ -8,14 +8,12 @@ public class ServerInputListener extends Thread {
 
     private final BufferedReader inputReader;
 
-
     public ServerInputListener() {
         inputReader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
     public void run() {
-
         while (true) {
             String input;
             try {
@@ -27,7 +25,6 @@ public class ServerInputListener extends Thread {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 }

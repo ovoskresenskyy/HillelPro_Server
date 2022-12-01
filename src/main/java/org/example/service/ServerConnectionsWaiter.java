@@ -30,9 +30,7 @@ public class ServerConnectionsWaiter extends Thread {
                             .getSocketConnectors()
                             .add(clientConnector);
 
-                    menuService.sendToEveryone("", clientConnector + " successfully connected.");
-
-                    System.out.println(clientConnector + " is connected!");
+                    menuService.sendToEveryone("", clientConnector + " connected our server.");
                 } catch (CantSetConnectionWithSocketException e) {
                     e.printStackTrace();
                     clientSocket.close();
@@ -43,6 +41,5 @@ public class ServerConnectionsWaiter extends Thread {
             e.printStackTrace();
             System.exit(1);
         }
-
     }
 }
