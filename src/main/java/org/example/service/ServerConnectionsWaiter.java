@@ -25,7 +25,7 @@ public class ServerConnectionsWaiter extends Thread {
             while (true) {
                 Socket clientSocket = serverSocket.accept();
                 try {
-                    SocketConnector clientConnector = SocketConnector.createAndStart(clientSocket, "Client-" + (++sessionNumber));
+                    SocketConnector clientConnector = SocketConnector.createAndStart(clientSocket, getClientName());
                     MyServer.getInstance()
                             .getSocketConnectors()
                             .add(clientConnector);
@@ -41,5 +41,9 @@ public class ServerConnectionsWaiter extends Thread {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private synchronized String getClientName() {
+        return "Client-" + (++sessionNumber);
     }
 }
