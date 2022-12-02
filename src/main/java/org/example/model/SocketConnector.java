@@ -61,12 +61,10 @@ public class SocketConnector implements Runnable {
                 userInput = reader.readLine();
                 if (userInput == null) throw new UserInputIsNullException();
 
-                Pair<String, String> commandWithParameter = socketConnectorService.parseUserInput(userInput);
-
                 commandHandler
-                        .getOrDefault(Command.getByName(commandWithParameter.getLeft())
-                                , socketConnectorService.sendMessageForAllConnected(thread.getName(), commandWithParameter.getLeft()))
-                        .execute(commandWithParameter.getRight());
+                        .getOrDefault(Command.getByName(userInput)
+                                , socketConnectorService.sendMessageForAllConnected(thread.getName(), userInput))
+                        .execute();
             }
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();

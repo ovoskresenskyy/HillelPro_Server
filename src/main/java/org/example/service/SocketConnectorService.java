@@ -20,15 +20,15 @@ public class SocketConnectorService {
     }
 
     public NotMyExecutor receiveFile() {
-        return (String parameter) -> System.out.println(parameter);
+        return () -> System.out.println("");
     }
 
     public NotMyExecutor sendMessageForAllConnected(String sender, String message) {
-        return (String parameter) -> MenuService.getInstance().sendToEveryone(sender, message);
+        return () -> MenuService.getInstance().sendToEveryone(sender, message);
     }
 
     public NotMyExecutor closeConnection(SocketConnector socketConnector) {
-        return (String command) -> {
+        return () -> {
             MyServer.getInstance()
                     .getSocketConnectors()
                     .remove(socketConnector);
@@ -54,17 +54,4 @@ public class SocketConnectorService {
         socketConnector.setRunning(false);
     }
 
-    public Pair<String, String> parseUserInput(String userInput) {
-        String[] words = userInput.split(" ");
-
-        String command = "";
-        String parameter = "";
-
-        for (int i = 0; i < words.length && i < 2; i++) {
-            if (i == 0) command = words[i];
-            if (i == 1) parameter = words[i];
-        }
-
-        return Pair.of(command, parameter);
-    }
 }
