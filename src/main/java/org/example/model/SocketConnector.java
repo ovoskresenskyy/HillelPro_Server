@@ -1,5 +1,6 @@
 package org.example.model;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.example.NotMyExecutor;
 import org.example.enums.Command;
 import lombok.Data;
@@ -43,6 +44,7 @@ public class SocketConnector implements Runnable {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             sender = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         } catch (IOException e) {
+            e.printStackTrace();
             throw new CantSetConnectionWithSocketException();
         }
     }
@@ -60,16 +62,16 @@ public class SocketConnector implements Runnable {
                 userInput = reader.readLine();
                 if (userInput == null) throw new UserInputIsNullException();
 
+                Pair<String, String> commandWithParameter = socketConnectorService.parseUserInput(userInput);
+
                 commandHandler
-                        .getOrDefault(Command.getByName(userInput)
-                                , socketConnectorService.sendMessageForAllConnected(thread.getName(), userInput))
-                        .execute();
+                        .getOrDefault(Command.getByName(commandWithParameter.getLeft())
+                                , socketConnectorService.sendMessageForAllConnected(thread.getName(), commandWithParameter.getLeft()))
+                        .execute(commandWithParameter.getRight());
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
-            System.out.println(thread.getName() + " socket is abandoned.");
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
+            System.out.println(thread.getName() + " socket is abandoned.");
         }
     }
 
@@ -78,10 +80,6 @@ public class SocketConnector implements Runnable {
                 Command.SEND_FILE, clientConnectorService.sendFile(),
                 Command.EXIT, clientConnectorService.closeConnection(this)
         );
-    }
-
-    public void stopThread() {
-        running = false;
     }
 
     @Override
