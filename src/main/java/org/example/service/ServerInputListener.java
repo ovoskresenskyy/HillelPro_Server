@@ -6,11 +6,13 @@ import java.io.InputStreamReader;
 
 public class ServerInputListener extends Thread {
 
+    private final BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in));
+
     @Override
     public void run() {
         while (true) {
             String input;
-            try (BufferedReader inputReader = new BufferedReader(new InputStreamReader(System.in))) {
+            try {
                 input = inputReader.readLine();
 
                 if (input.equals("-close")) MyServerService.getInstance().closeServer();
