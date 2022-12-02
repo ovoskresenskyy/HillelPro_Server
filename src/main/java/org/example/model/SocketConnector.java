@@ -76,7 +76,7 @@ public class SocketConnector implements Runnable {
 
     private Map<Command, NotMyExecutor> initializeCommands(SocketConnectorService clientConnectorService) {
         return Map.of(
-                Command.ACCEPT_FILE, clientConnectorService.acceptFile(),
+                Command.RECEIVE_FILE, clientConnectorService.receiveFile(),
                 Command.EXIT, clientConnectorService.closeConnection(this)
         );
     }

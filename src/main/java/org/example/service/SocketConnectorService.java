@@ -19,7 +19,7 @@ public class SocketConnectorService {
         return SocketConnectorService.ClientConnectorServiceHolder.instance;
     }
 
-    public NotMyExecutor acceptFile() {
+    public NotMyExecutor receiveFile() {
         return (String parameter) -> System.out.println(parameter);
     }
 
