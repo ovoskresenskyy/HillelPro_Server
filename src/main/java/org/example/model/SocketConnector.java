@@ -11,7 +11,6 @@ import org.example.service.MenuService;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Date;
 import java.util.Map;
 
@@ -77,7 +76,7 @@ public class SocketConnector implements Runnable {
 
     private Map<Command, NotMyExecutor> initializeCommands(SocketConnectorService clientConnectorService) {
         return Map.of(
-                Command.SEND_FILE, clientConnectorService.sendFile(),
+                Command.ACCEPT_FILE, clientConnectorService.acceptFile(),
                 Command.EXIT, clientConnectorService.closeConnection(this)
         );
     }

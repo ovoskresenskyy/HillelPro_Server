@@ -3,7 +3,7 @@ package org.example.enums;
 import java.util.Arrays;
 
 public enum Command {
-    SEND_FILE("-file", "(to send file on the server)"),
+    ACCEPT_FILE("-file", "(to send file on the server)"),
     EXIT("-exit", "(to close application)"),
     MESSAGE("", "or type message to other users)");
 
