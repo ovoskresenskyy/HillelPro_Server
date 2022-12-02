@@ -11,6 +11,7 @@ import org.example.service.MenuService;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Date;
 import java.util.Map;
 
@@ -66,6 +67,9 @@ public class SocketConnector implements Runnable {
                                 , socketConnectorService.sendMessageForAllConnected(thread.getName(), userInput))
                         .execute();
             }
+        } catch (SocketException e) {
+            e.printStackTrace();
+            System.out.println(thread.getName() + " socket exception.");
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
             System.out.println(thread.getName() + " socket is abandoned.");
