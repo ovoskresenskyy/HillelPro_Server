@@ -10,11 +10,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class MyServer {
 
-    private final List<SocketConnector> socketConnectors;
+    private final List<SocketConnector> socketConnectors = new CopyOnWriteArrayList<>();
 
-    private MyServer() {
-        socketConnectors = new CopyOnWriteArrayList<>();
-    }
+    private MyServer() {}
 
     private static class MyServerHolder {
         private final static MyServer instance = new MyServer();
