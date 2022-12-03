@@ -5,6 +5,7 @@ import org.example.model.SocketConnector;
 import org.example.model.MyServer;
 
 import java.io.IOException;
+import java.net.SocketException;
 import java.util.EnumSet;
 
 public class MenuService {
