@@ -44,7 +44,7 @@ public class MenuService {
             recipient.getSender().flush();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Can't send message.");
+            System.out.println("Can't send private message for " + recipient);
         }
     }
 

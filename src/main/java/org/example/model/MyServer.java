@@ -40,8 +40,8 @@ public class MyServer {
             serverInputListener.start();
 
         } catch (IOException e) {
-            System.out.println("Connection is broken.");
             e.printStackTrace();
+            System.out.println("Server crashed.");
             System.exit(1);
         }
 

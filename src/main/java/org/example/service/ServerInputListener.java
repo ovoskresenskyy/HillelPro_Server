@@ -19,7 +19,8 @@ public class ServerInputListener extends Thread {
 
                 MenuService.getInstance().sendToEveryone("Server", input);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
+                System.out.println("Problems while trying to stop the server from terminal");
             }
         }
     }
