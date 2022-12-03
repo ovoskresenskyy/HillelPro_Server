@@ -1,11 +1,9 @@
 package org.example.model;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.example.NotMyExecutor;
 import org.example.enums.Command;
 import lombok.Data;
 import org.example.exceptions.CantSetConnectionWithSocketException;
-import org.example.exceptions.UserInputIsNullException;
 import org.example.service.SocketConnectorService;
 import org.example.service.MenuService;
 
@@ -60,10 +58,12 @@ public class SocketConnector implements Runnable {
         try {
             while (running) {
                 userInput = reader.readLine();
-                if (userInput == null) throw new UserInputIsNullException();
+                if (userInput == null) continue;
+
+                String command = socketConnectorService.parseUserInput(userInput);
 
                 commandHandler
-                        .getOrDefault(Command.getByName(userInput)
+                        .getOrDefault(Command.getByName(command)
                                 , socketConnectorService.sendMessageForAllConnected(thread.getName(), userInput))
                         .execute();
             }
@@ -74,11 +74,12 @@ public class SocketConnector implements Runnable {
             e.printStackTrace();
             System.out.println(thread.getName() + " socket is abandoned.");
         }
+        SocketConnectorService.getInstance().closeConnection(this);
     }
 
     private Map<Command, NotMyExecutor> initializeCommands(SocketConnectorService clientConnectorService) {
         return Map.of(
-                Command.RECEIVE_FILE, clientConnectorService.receiveFile(),
+                Command.RECEIVE_FILE, clientConnectorService.receiveFile(this),
                 Command.EXIT, clientConnectorService.closeConnection(this)
         );
     }
