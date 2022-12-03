@@ -23,6 +23,7 @@ public class MyServerService {
                 .peek(socketConnector -> MenuService.getInstance().sendPrivateMessage("[Server]: ", socketConnector, "Sorry our server is closing"))
                 .forEach(socketConnector -> SocketConnectorService.getInstance().closeConnection(socketConnector));
 
+        System.out.println("Server is stopped!");
         System.exit(0);
     }
 }
